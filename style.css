@@ -1,0 +1,151 @@
+body {
+    background-color: #d6c7ab;
+    overflow: hidden;
+    text-align: left;
+}
+
+#debug-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.debug-line {
+    display: flex;
+    flex-direction: row;
+    
+    gap: 75px;  
+}
+
+.debug-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas com largura igual */
+    grid-template-rows: repeat(2, auto); /* 2 linhas com altura automática */
+    gap: 10px; /* Espaçamento entre os elementos */
+    align-items: center; /* Alinhar os itens verticalmente no centro */
+}
+
+#myChart,
+#myChart1,
+#myChart2 {
+    width: 400px;
+    height: 200px;
+    background-color: beige;
+    border: #29363c 1px solid;
+    position: relative;
+}
+
+
+#game-canvas {
+    width: 720px;
+    height: 720px;
+    min-width: 720px;
+    min-height: 720px;
+    border: 2px solid #29363c;
+    background-color: beige;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.75);
+
+}
+
+#main-flex {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    
+}
+
+@media screen and (max-width: 1080px) {
+    #main-flex {
+        flex-direction: column;
+    }
+
+    body {
+        overflow: scroll;
+    }
+    .debug-line {
+        gap: 0px;
+        margin-left: -5px;
+
+    }
+}
+
+#network-canvas {
+    width: 240px;
+    height: 300px;
+    background-color: beige;
+    border: 10px solid #29363c;
+    position: relative;
+    border-radius: 50px;
+}
+
+#zoom-canvas {
+    width: 360px;
+    height: 360px;
+    background-color: rgb(228, 228, 220);
+    position: relative;
+    transform-origin: top left;
+    border: 2px solid #29363c;
+    border-radius: 50%;
+    box-shadow: inset 0px 0px 10px 2px beige, 0px 0px 10px 2px rgba(0, 0, 0, 0.75);
+
+    
+}
+
+#cell-view {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+}
+
+
+#toggleCheckbox,
+label {
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #29363c;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+}
+p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #29363c;
+    font-size: 20px;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+button {
+    cursor: pointer;
+    background-color: #29363c;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    
+}
+
+button:hover {
+    background-color: brown;
+}
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="range"] {
+    width: 100px;
+}

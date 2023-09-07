@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title> Cell Adaptation</title>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="author" content="João Paulo Gomes Bernardino">
+    <meta name="description" content="Cell Adaptation">
+    <meta name="keywords" content="Cell Adaptation">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+</head>
+
+<body>
+    <main id="main-flex">
+        <canvas id="game-canvas" width="720" height="720"></canvas>
+        <div class="debug-line">
+            <div class="debug-container">
+                <canvas id="myChart" width="400" height="200"></canvas>
+                <canvas id="myChart1" width="400" height="200"></canvas>
+                <canvas id="myChart2" width="400" height="200"></canvas>
+            </div>
+            <div class="debug-container" id="cell-view">
+                <canvas id="network-canvas" width="240" height="300"></canvas>
+                <canvas id="zoom-canvas" width="360" height="360"></canvas>
+            </div>
+        </div>
+    </main>
+    <div id="debug-info">
+        <label for="toggleCheckbox">Otimizar Colisões -></label>
+        <input type="checkbox" id="toggleCheckbox" onchange="toggleGlobalVariable()" checked>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="debug.js"></script>
+    <script src="quadtree.js"></script>
+    <script src="global_variables.js"></script>
+    <script src="visualizer.js"></script>
+    <script src="utils.js"></script>
+    <script src="network.js"></script>
+    <script src="sensor.js"></script>
+    <script src="cell.js"></script>
+    <script src='parallel.js'></script>
+    <script src="main.js"></script>
+    <script>
+        let data = {
+            labels: [],
+            datasets: [{
+                label: 'Tempo de Execução',
+                data: [],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        };
+        let data1 = {
+            labels: [],
+            datasets: [{
+                label: 'Presas',
+                data: [],
+                borderColor: '#168629',
+                borderWidth: 2,
+                fill: false
+            }]
+        };
+        let data2 = {
+            labels: [],
+            datasets: [{
+                label: 'Predadores',
+                data: [],
+                borderColor: '#eb4960',
+                borderWidth: 2,
+                fill: false
+            }]
+
+        };
+
+        let config = {
+            type: 'line',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        min: 0
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Tempo de Execução'
+                    }
+                },
+                pointRadius: 1,
+            }
+        };
+        let configPrey = {
+            type: 'line',
+            data: data1,
+            options: {
+                scales: {
+                    y: {
+                        suggestedMin: 0,
+                        // suggestedMax: 640
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: '"Qtd Presas'
+                    }
+                },
+                pointRadius: 1,
+
+            }
+        };
+
+        let config2 = {
+            type: 'line',
+            data: data2,
+            options: {
+                scales: {
+                    y: {
+                        suggestedMax: 100,
+                        suggestedMin: 0
+                    },
+
+
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Qtd Predadores'
+                    },
+                    labels: {
+                        display: false,
+                    }
+                },
+                pointRadius: 1,
+            }
+        };
+
+        let chartCtx = document.getElementById('myChart').getContext('2d');
+        let myChart = new Chart(chartCtx, config);
+        let chartCtx1 = document.getElementById('myChart1').getContext('2d');
+        let myChart1 = new Chart(chartCtx1, configPrey);
+        let chartCtx2 = document.getElementById('myChart2').getContext('2d');
+        let myChart2 = new Chart(chartCtx2, config2);
+        myChart2.options.animation = false;
+        myChart1.options.animation = false;
+        myChart.options.animation = false;
+        function updateChart(updateTime, preyCount, predatorCount) {
+            data.labels.push("");
+            data1.labels.push("");
+            data2.labels.push("");
+            if (data.datasets[0].data.length > 15) {
+                data.labels.shift();
+                data1.labels.shift();
+                data2.labels.shift();
+                data.datasets[0].data.shift();
+                data1.datasets[0].data.shift();
+                data2.datasets[0].data.shift();
+            }
+            data.datasets[0].data.push(updateTime);
+            data1.datasets[0].data.push(preyCount);
+            data2.datasets[0].data.push(predatorCount);
+
+            myChart.update();
+            myChart1.update();
+            myChart2.update();
+
+        }
+        setInterval(function () {
+            // Atualize o gráfico com o novo valor
+            updateChart(updateTime, preyCount, predatorCount);
+        }, 1000); // Atualize a cada segundo
+    </script>
+</body>
+
+</html>
